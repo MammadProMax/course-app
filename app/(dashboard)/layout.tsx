@@ -2,10 +2,14 @@ import React from "react";
 
 // components
 import Sidebar from "./components/Sidebar";
+import Navbar from "./components/Navbar";
 
 const DashboardLayout = ({ children }: { children: React.ReactNode }) => {
    return (
       <div className="h-full">
+         <div className="h-[80px] md:ml-56 sticky inset-x-0 z-50 top-0 mb-1">
+            <Navbar />
+         </div>
          <div className="hidden md:flex flex-col fixed inset-y-0 z-50 left-0 h-full w-56">
             <Sidebar />
          </div>
