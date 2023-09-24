@@ -7,9 +7,7 @@ const MobileSidebar = () => {
    return (
       <Sheet>
          <SheetTrigger className="md:hidden pr-4 hover:opacity-80 transition">
-            <button>
-               <Menu size={22} />
-            </button>
+            <Menu size={22} />
          </SheetTrigger>
          <SheetContent side={"left"} className="p-0 border-0">
             <Sidebar />
