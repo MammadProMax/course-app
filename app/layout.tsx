@@ -18,8 +18,10 @@ export default function RootLayout({
    return (
       <ClerkProvider>
          <html lang="en">
-            <ToasterProvider />
-            <body className={inter.className}>{children}</body>
+            <body className={inter.className}>
+               <ToasterProvider />
+               {children}
+            </body>
          </html>
       </ClerkProvider>
    );
