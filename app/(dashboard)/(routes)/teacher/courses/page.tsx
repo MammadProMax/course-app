@@ -2,7 +2,7 @@ import React from "react";
 import { Button } from "@/components/ui/button";
 import Link from "next/link";
 
-const CoursePage = () => {
+const CoursesPage = () => {
    return (
       <div className="p-6">
          <Button asChild>
@@ -12,4 +12,4 @@ const CoursePage = () => {
    );
 };
 
-export default CoursePage;
+export default CoursesPage;
