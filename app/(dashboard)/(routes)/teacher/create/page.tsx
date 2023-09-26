@@ -45,6 +45,7 @@ const CreateCoursePage = () => {
    const onSubmit: SubmitHandler<FormType> = async (data) => {
       try {
          const response = await axios.post("/api/courses", data);
+         toast.success("Course created");
          router.push(`/teacher/courses/${response.data.id}`);
       } catch (error) {
          toast.error("somthing went wrong");
