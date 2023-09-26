@@ -17,7 +17,7 @@ import {
 } from "@/components/ui/form";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import { Pencil } from "lucide-react";
+import { Pencil, CircleDashed } from "lucide-react";
 import toast from "react-hot-toast";
 import { useRouter } from "next/navigation";
 
@@ -67,16 +67,24 @@ const TitleForm = ({ courseId, initialData }: Props) => {
       <div className="bg-slate-100 rounded-md p-4">
          <div className="font-medium flex items-center justify-between">
             Course Title
-            <Button onClick={toggleEdit} variant="link" className="border-none">
-               {isEditing ? (
-                  "Cancel"
-               ) : (
-                  <>
-                     <Pencil className="h-4 w-4 mr-2" />
-                     Edit Title
-                  </>
-               )}
-            </Button>
+            {isSubmitting ? (
+               <CircleDashed className="h-6 w-6 animate-spin text-sky-500" />
+            ) : (
+               <Button
+                  onClick={toggleEdit}
+                  variant="link"
+                  className="border-none"
+               >
+                  {isEditing ? (
+                     "Cancel"
+                  ) : (
+                     <>
+                        <Pencil className="h-4 w-4 mr-2" />
+                        Edit Title
+                     </>
+                  )}
+               </Button>
+            )}
          </div>
          {!isEditing ? (
             <p className="text-sm text-slate-500">{initialData.title}</p>
