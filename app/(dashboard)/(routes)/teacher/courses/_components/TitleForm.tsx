@@ -17,7 +17,7 @@ import {
 } from "@/components/ui/form";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import { Pencil, CircleDashed } from "lucide-react";
+import { Pencil, RefreshCcw } from "lucide-react";
 import toast from "react-hot-toast";
 import { useRouter } from "next/navigation";
 
@@ -68,7 +68,7 @@ const TitleForm = ({ courseId, initialData }: Props) => {
          <div className="font-medium flex items-center justify-between">
             Course Title
             {isSubmitting ? (
-               <CircleDashed className="h-6 w-6 animate-spin text-sky-500" />
+               <RefreshCcw className="h-6 w-6 animate-reverse-spin-slower text-sky-400" />
             ) : (
                <Button
                   onClick={toggleEdit}
