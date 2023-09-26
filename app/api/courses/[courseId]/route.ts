@@ -1,6 +1,7 @@
 import { NextResponse } from "next/server";
 import { db } from "@/lib/db";
 import { auth } from "@clerk/nextjs";
+import { Course } from "@prisma/client";
 type ParamsProps = {
    params: {
       courseId: string;
@@ -14,16 +15,19 @@ export async function PATCH(
       const { userId } = auth();
       if (!userId) return new NextResponse("unauthorized", { status: 401 });
 
-      const { title } = await req.json();
-      if (!title)
+      const updatedData: Course = await req.json();
+
+      if (
+         !updatedData ||
+         Object.keys(updatedData).length === 0 ||
+         typeof updatedData !== "object"
+      )
          return new NextResponse(undefined, {
             status: 402,
          });
 
       const course = await db.course.update({
-         data: {
-            title,
-         },
+         data: updatedData,
          where: {
             id: courseId,
             userId,
