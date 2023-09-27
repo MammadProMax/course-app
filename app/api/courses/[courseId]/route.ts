@@ -2,11 +2,13 @@ import { NextResponse } from "next/server";
 import { db } from "@/lib/db";
 import { auth } from "@clerk/nextjs";
 import { Course } from "@prisma/client";
+
 type ParamsProps = {
    params: {
       courseId: string;
    };
 };
+
 export async function PATCH(
    req: Request,
    { params: { courseId } }: ParamsProps
@@ -15,7 +17,7 @@ export async function PATCH(
       const { userId } = auth();
       if (!userId) return new NextResponse("unauthorized", { status: 401 });
 
-      const updatedData: Course = await req.json();
+      const updatedData: Partial<Course> = await req.json();
 
       if (
          !updatedData ||

@@ -9,6 +9,7 @@ import { LayoutDashboard } from "lucide-react";
 
 import TitleForm from "../_components/TitleForm";
 import DescriptionForm from "../_components/DescriptionForm";
+import ImageForm from "../_components/ImageForm";
 
 type Props = {
    params: {
@@ -46,13 +47,25 @@ const CoursePage = async ({ params: { courseId } }: Props) => {
                   </span>
                </div>
             </div>
-            <div className="max-w-4xl mx-auto grid grid-cols-1 md:grid-cols-2 gap-6 mt-16">
+            <div className="max-w-2xl grid grid-cols-1 gap-6 mt-16">
                <div className="flex items-center gap-x-2">
                   <IconBadge icon={LayoutDashboard} />
                   <h2 className="text-xl">Customize your course</h2>
                </div>
-               <TitleForm courseId={courseId} initialData={course} />
-               <DescriptionForm courseId={courseId} initialData={course} />
+               <TitleForm
+                  courseId={courseId}
+                  initialData={{ title: course.title }}
+               />
+
+               <DescriptionForm
+                  courseId={courseId}
+                  initialData={{ description: course.description }}
+               />
+
+               <ImageForm
+                  courseId={courseId}
+                  initialData={{ imageUrl: course.imageUrl }}
+               />
             </div>
          </div>
       );
