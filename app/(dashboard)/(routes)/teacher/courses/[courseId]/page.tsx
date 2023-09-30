@@ -10,6 +10,8 @@ import { LayoutDashboard } from "lucide-react";
 import TitleForm from "../_components/TitleForm";
 import DescriptionForm from "../_components/DescriptionForm";
 import ImageForm from "../_components/ImageForm";
+import CategoryForm from "../_components/CategoryForm";
+import getCategories from "@/fetchers/getCategoriesFromDB";
 
 type Props = {
    params: {
@@ -22,12 +24,14 @@ const CoursePage = async ({ params: { courseId } }: Props) => {
       const course = await getCourse(courseId);
       if (!course) return redirect("/");
 
+      const categories = await getCategories();
+
       const requiredFields = [
          course.title,
          course.description,
          course.imageUrl,
          course.price,
-         course.catgoryId,
+         course.categoryId,
       ];
 
       const totalFields = requiredFields.length;
@@ -61,10 +65,17 @@ const CoursePage = async ({ params: { courseId } }: Props) => {
                   courseId={courseId}
                   initialData={{ description: course.description }}
                />
-
                <ImageForm
                   courseId={courseId}
                   initialData={{ imageUrl: course.imageUrl }}
+               />
+               <CategoryForm
+                  courseId={course.id}
+                  initialData={{ categoryId: course.categoryId }}
+                  options={categories.map((category) => ({
+                     label: category.name,
+                     value: category.id,
+                  }))}
                />
             </div>
          </div>

@@ -18,8 +18,8 @@ model Course {
   imageUrl    String?
   price       Float?
   isPublished Boolean      @default(false)
-  catgoryId   String?      @db.ObjectId
-  category    Category?    @relation(fields: [catgoryId], references: [id])
+  categoryId  String?      @db.ObjectId
+  category    Category?    @relation(fields: [categoryId], references: [id])
   attachments Attachment[]
   createdAt   DateTime     @default(now())
   updatedAt   DateTime     @updatedAt

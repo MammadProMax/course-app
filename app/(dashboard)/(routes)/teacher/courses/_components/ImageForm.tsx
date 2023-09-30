@@ -5,7 +5,7 @@ import { useRouter } from "next/navigation";
 import axios from "axios";
 
 import { Button } from "@/components/ui/button";
-import { ImageIcon, Pencil, Plus, RefreshCcw } from "lucide-react";
+import { ImageIcon, Pencil, Plus, AlertTriangle } from "lucide-react";
 import toast from "react-hot-toast";
 import Image from "next/image";
 import FileUploader from "@/components/global/FileUploader";
@@ -74,6 +74,16 @@ const ImageForm = ({ courseId, initialData }: Props) => {
                      <ImageIcon />
                   </div>
                )}
+               <div className="mt-2 text-sm py-1 flex gap-x-2">
+                  <span className="flex gap-x-1 items-center">
+                     <AlertTriangle className="h-4 w-4" />
+                     Important:
+                  </span>
+                  <span>
+                     Make sure using vpn or cloudfare (1.1.1.1) (1.0.0.1) dns to
+                     ensure your connection
+                  </span>
+               </div>
             </div>
          ) : (
             <>
