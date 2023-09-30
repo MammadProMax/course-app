@@ -8,20 +8,14 @@ import axios from "axios";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 
-import {
-   Form,
-   FormControl,
-   FormDescription,
-   FormField,
-   FormLabel,
-   FormItem,
-} from "@/components/ui/form";
+import { Form, FormControl, FormField, FormItem } from "@/components/ui/form";
 import { Button } from "@/components/ui/button";
-import { Textarea } from "@/components/ui/textarea";
-import { Pencil, Plus, RefreshCcw } from "lucide-react";
+
+import { Pencil, Plus, Verified } from "lucide-react";
 import toast from "react-hot-toast";
 import { cn } from "@/lib/utils";
 import { Combobox, ComboboxItems } from "@/components/ui/combobox";
+import VerifiedIconbadge from "./VerifiedIconbadge";
 
 type Props = {
    initialData: {
@@ -67,7 +61,10 @@ const CategoryForm = ({ courseId, initialData, options }: Props) => {
    return (
       <div className="bg-slate-100 rounded-md p-4">
          <div className="font-medium flex items-center justify-between">
-            Categories
+            <VerifiedIconbadge
+               title="Category"
+               Valid={!initialData.categoryId}
+            />
             <Button
                disabled={isSubmitting}
                onClick={toggleEdit}

@@ -1,17 +1,18 @@
 import React from "react";
-import { notFound, redirect } from "next/navigation";
+import { notFound } from "next/navigation";
 
 import { PrismaClientKnownRequestError } from "@prisma/client/runtime/library";
 import getCourse from "@/fetchers/getCourseFromDB";
 
 import { IconBadge } from "@/components/global/IconBadge";
-import { LayoutDashboard } from "lucide-react";
+import { CircleDollarSign, LayoutDashboard, ListChecks } from "lucide-react";
 
 import TitleForm from "../_components/TitleForm";
 import DescriptionForm from "../_components/DescriptionForm";
 import ImageForm from "../_components/ImageForm";
 import CategoryForm from "../_components/CategoryForm";
 import getCategories from "@/fetchers/getCategoriesFromDB";
+import PriceForm from "../_components/PriceForm";
 
 type Props = {
    params: {
@@ -22,7 +23,7 @@ type Props = {
 const CoursePage = async ({ params: { courseId } }: Props) => {
    try {
       const course = await getCourse(courseId);
-      if (!course) return redirect("/");
+      if (!course) return notFound();
 
       const categories = await getCategories();
 
@@ -51,32 +52,50 @@ const CoursePage = async ({ params: { courseId } }: Props) => {
                   </span>
                </div>
             </div>
-            <div className="max-w-2xl grid grid-cols-1 gap-6 mt-16">
-               <div className="flex items-center gap-x-2">
-                  <IconBadge icon={LayoutDashboard} />
-                  <h2 className="text-xl">Customize your course</h2>
-               </div>
-               <TitleForm
-                  courseId={courseId}
-                  initialData={{ title: course.title }}
-               />
 
-               <DescriptionForm
-                  courseId={courseId}
-                  initialData={{ description: course.description }}
-               />
-               <ImageForm
-                  courseId={courseId}
-                  initialData={{ imageUrl: course.imageUrl }}
-               />
-               <CategoryForm
-                  courseId={course.id}
-                  initialData={{ categoryId: course.categoryId }}
-                  options={categories.map((category) => ({
-                     label: category.name,
-                     value: category.id,
-                  }))}
-               />
+            <div className="max-w-7xl mx-auto grid grid-cols-1 lg:grid-cols-2 gap-8 mt-9">
+               <div className="col-span-1 flex flex-col gap-y-6">
+                  <div className="flex items-center gap-x-2 mt-3">
+                     <IconBadge icon={LayoutDashboard} />
+                     <h2 className="text-xl">Customize your course</h2>
+                  </div>
+                  <TitleForm
+                     courseId={courseId}
+                     initialData={{ title: course.title }}
+                  />
+
+                  <DescriptionForm
+                     courseId={courseId}
+                     initialData={{ description: course.description }}
+                  />
+                  <CategoryForm
+                     courseId={course.id}
+                     initialData={{ categoryId: course.categoryId }}
+                     options={categories.map((category) => ({
+                        label: category.name,
+                        value: category.id,
+                     }))}
+                  />
+                  <ImageForm
+                     courseId={courseId}
+                     initialData={{ imageUrl: course.imageUrl }}
+                  />
+               </div>
+               <div className="col-span-1 flex flex-col gap-y-6">
+                  <div className="flex items-center gap-x-2 mt-3">
+                     <IconBadge icon={ListChecks} />
+                     <h2 className="text-xl">Course chapters</h2>
+                  </div>
+                  <div>Todo : Chapters</div>
+                  <div className="flex items-center gap-x-2 mt-3">
+                     <IconBadge icon={CircleDollarSign} />
+                     <h3 className="text-xl">sell your courses</h3>
+                  </div>
+                  <PriceForm
+                     courseId={courseId}
+                     initialData={{ price: course.price }}
+                  />
+               </div>
             </div>
          </div>
       );

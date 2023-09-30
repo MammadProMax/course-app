@@ -5,11 +5,13 @@ import { useRouter } from "next/navigation";
 import axios from "axios";
 
 import { Button } from "@/components/ui/button";
-import { ImageIcon, Pencil, Plus, AlertTriangle } from "lucide-react";
+import { ImageIcon, Pencil, Plus, AlertTriangle, Verified } from "lucide-react";
 import toast from "react-hot-toast";
 import Image from "next/image";
 import FileUploader from "@/components/global/FileUploader";
 import { Course } from "@prisma/client";
+import { cn } from "@/lib/utils";
+import VerifiedIconbadge from "./VerifiedIconbadge";
 
 type Props = {
    initialData: {
@@ -40,7 +42,7 @@ const ImageForm = ({ courseId, initialData }: Props) => {
    return (
       <div className="bg-slate-100 rounded-md p-4">
          <div className="font-medium flex items-center justify-between">
-            Course image
+            <VerifiedIconbadge title="Image" Valid={!initialData.imageUrl} />
             <Button onClick={toggleEdit} variant="link" className="border-none">
                {isEditing ? (
                   "Cancel"

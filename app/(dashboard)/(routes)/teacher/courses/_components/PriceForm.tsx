@@ -7,6 +7,8 @@ import { z } from "zod";
 import axios from "axios";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
+import { formatPrice } from "@/lib/formatPrice";
+import { cn } from "@/lib/utils";
 
 import {
    Form,
@@ -15,39 +17,34 @@ import {
    FormField,
    FormLabel,
    FormItem,
+   FormMessage,
 } from "@/components/ui/form";
 import { Button } from "@/components/ui/button";
-import { Textarea } from "@/components/ui/textarea";
+import { Input } from "@/components/ui/input";
 import { Pencil, Plus, RefreshCcw, Verified } from "lucide-react";
 import toast from "react-hot-toast";
-import { cn } from "@/lib/utils";
 import VerifiedIconbadge from "./VerifiedIconbadge";
 
 type Props = {
    initialData: {
-      description: string | null;
+      price: number | null;
    };
    courseId: string;
 };
 
 const formSchema = z.object({
-   description: z
-      .string()
-      .min(1, {
-         message: "this field is required",
-      })
-      .max(256),
+   price: z.coerce.number().max(60000),
 });
 type FormType = z.infer<typeof formSchema>;
 
-const DescriptionForm = ({ courseId, initialData }: Props) => {
+const PriceForm = ({ courseId, initialData }: Props) => {
    // hooks
    const router = useRouter();
    const [isEditing, setIsEditing] = useState<boolean>(false);
    const form = useForm<FormType>({
       resolver: zodResolver(formSchema),
       defaultValues: {
-         description: initialData.description || "",
+         price: initialData.price || 0,
       },
    });
 
@@ -64,13 +61,14 @@ const DescriptionForm = ({ courseId, initialData }: Props) => {
       }
    };
    const toggleEdit = () => setIsEditing((state) => !state);
+   const price = initialData.price ? formatPrice(initialData.price) : "FREE";
 
    return (
       <div className="bg-slate-100 rounded-md p-4">
          <div className="font-medium flex items-center justify-between">
             <VerifiedIconbadge
-               title="Description"
-               Valid={!initialData.description}
+               title="Course Price"
+               Valid={!initialData.price}
             />
             {isSubmitting ? (
                <RefreshCcw className="h-6 w-6 animate-reverse-spin-slower text-sky-400" />
@@ -82,15 +80,15 @@ const DescriptionForm = ({ courseId, initialData }: Props) => {
                >
                   {isEditing ? (
                      "Cancel"
-                  ) : !initialData.description ? (
+                  ) : !initialData.price ? (
                      <>
                         <Plus className="h-4 w-4 mr-2" />
-                        Add Description
+                        Add Price
                      </>
                   ) : (
                      <>
                         <Pencil className="h-4 w-4 mr-2" />
-                        Edit Description
+                        Edit Price
                      </>
                   )}
                </Button>
@@ -100,34 +98,42 @@ const DescriptionForm = ({ courseId, initialData }: Props) => {
             <p
                className={cn(
                   "text-sm text-slate-500",
-                  !initialData.description && "italic"
+                  !initialData.price && "italic"
                )}
             >
-               {initialData.description || "No description"}
+               {price}
             </p>
          ) : (
             <Form {...form}>
                <form onSubmit={form.handleSubmit(handleSubmit)}>
                   <FormField
-                     name="description"
+                     name="price"
                      control={form.control}
                      render={({ field }) => (
                         <FormItem>
-                           <FormLabel>description</FormLabel>
+                           <FormLabel>price</FormLabel>
                            <FormControl>
-                              <Textarea
+                              <Input
                                  {...field}
+                                 type="number"
                                  disabled={isSubmitting}
-                                 placeholder="e.g. 'This course is about...'"
+                                 placeholder="e.g. '223'"
                                  className="focus-visible:ring-inherit transition"
                               />
                            </FormControl>
+
+                           <FormMessage />
+
                            <div className="flex justify-between items-center pt-1">
                               <FormDescription>
-                                 This is your course description.
+                                 <p>This is your course price.</p>
+                                 <p className="mt-1">
+                                    if you set price 0 it will be accessable for
+                                    FREE
+                                 </p>
                               </FormDescription>
                               <Button
-                                 disabled={!isValid || isSubmitting}
+                                 disabled={isSubmitting}
                                  type="submit"
                                  size="sm"
                                  variant="outline"
@@ -145,4 +151,4 @@ const DescriptionForm = ({ courseId, initialData }: Props) => {
    );
 };
 
-export default DescriptionForm;
+export default PriceForm;

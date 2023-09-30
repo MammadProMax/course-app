@@ -17,9 +17,11 @@ import {
 } from "@/components/ui/form";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import { Pencil, RefreshCcw } from "lucide-react";
+import { Pencil, RefreshCcw, Verified } from "lucide-react";
 import toast from "react-hot-toast";
 import { useRouter } from "next/navigation";
+import { cn } from "@/lib/utils";
+import VerifiedIconbadge from "./VerifiedIconbadge";
 
 type Props = {
    initialData: {
@@ -66,7 +68,10 @@ const TitleForm = ({ courseId, initialData }: Props) => {
    return (
       <div className="bg-slate-100 rounded-md p-4">
          <div className="font-medium flex items-center justify-between">
-            Course Title
+            <VerifiedIconbadge
+               title="Course Title"
+               Valid={!initialData.title}
+            />
             {isSubmitting ? (
                <RefreshCcw className="h-6 w-6 animate-reverse-spin-slower text-sky-400" />
             ) : (
