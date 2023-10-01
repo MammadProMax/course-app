@@ -64,7 +64,7 @@ const PriceForm = ({ courseId, initialData }: Props) => {
    const price = initialData.price ? formatPrice(initialData.price) : "FREE";
 
    return (
-      <div className="bg-slate-100 rounded-md p-4">
+      <div className="relative bg-slate-100 rounded-md p-4">
          <div className="font-medium flex items-center justify-between">
             <VerifiedIconbadge
                title="Course Price"

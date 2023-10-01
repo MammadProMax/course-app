@@ -5,7 +5,12 @@ import { PrismaClientKnownRequestError } from "@prisma/client/runtime/library";
 import getCourse from "@/fetchers/getCourseFromDB";
 
 import { IconBadge } from "@/components/global/IconBadge";
-import { CircleDollarSign, LayoutDashboard, ListChecks } from "lucide-react";
+import {
+   CircleDollarSign,
+   File,
+   LayoutDashboard,
+   ListChecks,
+} from "lucide-react";
 
 import TitleForm from "../_components/TitleForm";
 import DescriptionForm from "../_components/DescriptionForm";
@@ -13,6 +18,7 @@ import ImageForm from "../_components/ImageForm";
 import CategoryForm from "../_components/CategoryForm";
 import getCategories from "@/fetchers/getCategoriesFromDB";
 import PriceForm from "../_components/PriceForm";
+import AttachmentsForm from "../_components/AttachmentsForm";
 
 type Props = {
    params: {
@@ -95,6 +101,11 @@ const CoursePage = async ({ params: { courseId } }: Props) => {
                      courseId={courseId}
                      initialData={{ price: course.price }}
                   />
+                  <div className="flex items-center gap-x-2 mt-3">
+                     <IconBadge icon={File} />
+                     <h2 className="text-xl">Resources & Attachments</h2>
+                  </div>
+                  <AttachmentsForm courseId={courseId} initialData={course} />
                </div>
             </div>
          </div>

@@ -10,6 +10,13 @@ export default async function getCourse(id: string) {
       where: {
          id,
       },
+      include: {
+         attachments: {
+            orderBy: {
+               createdAt: "desc",
+            },
+         },
+      },
    });
    return course;
 }

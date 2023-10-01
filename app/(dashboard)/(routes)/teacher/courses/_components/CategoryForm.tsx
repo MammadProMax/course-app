@@ -59,7 +59,7 @@ const CategoryForm = ({ courseId, initialData, options }: Props) => {
       (option) => option.value === initialData.categoryId
    );
    return (
-      <div className="bg-slate-100 rounded-md p-4">
+      <div className="relative bg-slate-100 rounded-md p-4">
          <div className="font-medium flex items-center justify-between">
             <VerifiedIconbadge
                title="Category"

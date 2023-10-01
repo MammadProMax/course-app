@@ -66,7 +66,7 @@ const TitleForm = ({ courseId, initialData }: Props) => {
    const toggleEdit = () => setIsEditing((state) => !state);
 
    return (
-      <div className="bg-slate-100 rounded-md p-4">
+      <div className="relative bg-slate-100 rounded-md p-4">
          <div className="font-medium flex items-center justify-between">
             <VerifiedIconbadge
                title="Course Title"
