@@ -65,7 +65,7 @@ const ModifyAttachment = ({
    const toggleEdit = () => setEditing((state) => !state);
 
    return (
-      <>
+      <div className="w-full my-2">
          {!isEditing ? (
             <div className=" w-full flex flex-wrap items-center justify-between gap-x-4 px-2">
                <Link
@@ -80,6 +80,7 @@ const ModifyAttachment = ({
                      onClick={toggleEdit}
                      variant="outline"
                      className="mx-2"
+                     size="sm"
                   >
                      Edit name
                   </Button>
@@ -135,7 +136,7 @@ const ModifyAttachment = ({
                </Form>
             </div>
          )}
-      </>
+      </div>
    );
 };
 

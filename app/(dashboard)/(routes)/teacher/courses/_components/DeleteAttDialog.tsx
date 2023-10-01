@@ -40,7 +40,9 @@ const DeleteAttDialog = ({ context, courseId, toggleEdit }: AppProps) => {
    return (
       <Dialog>
          <DialogTrigger asChild>
-            <Button variant="destructive">Delete</Button>
+            <Button size="sm" variant="destructive">
+               Delete
+            </Button>
          </DialogTrigger>
          <DialogContent>
             <DialogHeader>
