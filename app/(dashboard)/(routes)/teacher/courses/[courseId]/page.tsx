@@ -3,6 +3,7 @@ import { notFound } from "next/navigation";
 
 import { PrismaClientKnownRequestError } from "@prisma/client/runtime/library";
 import getCourse from "@/fetchers/getCourseFromDB";
+import getCategories from "@/fetchers/getCategoriesFromDB";
 
 import { IconBadge } from "@/components/global/IconBadge";
 import {
@@ -16,9 +17,9 @@ import TitleForm from "../_components/TitleForm";
 import DescriptionForm from "../_components/DescriptionForm";
 import ImageForm from "../_components/ImageForm";
 import CategoryForm from "../_components/CategoryForm";
-import getCategories from "@/fetchers/getCategoriesFromDB";
 import PriceForm from "../_components/PriceForm";
 import AttachmentsForm from "../_components/AttachmentsForm";
+import ChapterForm from "../_components/ChapterForm";
 
 type Props = {
    params: {
@@ -92,7 +93,10 @@ const CoursePage = async ({ params: { courseId } }: Props) => {
                      <IconBadge icon={ListChecks} />
                      <h2 className="text-xl">Course chapters</h2>
                   </div>
-                  <div>Todo : Chapters</div>
+                  <ChapterForm
+                     courseId={courseId}
+                     initialData={{ chapters: course.chapters }}
+                  />
                   <div className="flex items-center gap-x-2 mt-3">
                      <IconBadge icon={CircleDollarSign} />
                      <h3 className="text-xl">sell your courses</h3>

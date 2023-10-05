@@ -47,7 +47,7 @@ model Chapter {
   id          String  @id @default(auto()) @map("_id") @db.ObjectId
   title       String
   description String?
-  videoUrl    String? @unique
+  videoUrl    String?
   position    Int
   isPublished Boolean @default(false)
   isFree      Boolean @default(false)

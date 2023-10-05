@@ -16,6 +16,11 @@ export default async function getCourse(id: string) {
                createdAt: "desc",
             },
          },
+         chapters: {
+            orderBy: {
+               position: "asc",
+            },
+         },
       },
    });
    return course;
