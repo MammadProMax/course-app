@@ -4,7 +4,7 @@ import React, { useState } from "react";
 import { useRouter } from "next/navigation";
 
 import { z } from "zod";
-import axios, { AxiosResponse } from "axios";
+import axios from "axios";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { Chapter } from "@prisma/client";
@@ -13,16 +13,15 @@ import { cn } from "@/lib/utils";
 import {
    Form,
    FormControl,
-   FormDescription,
    FormField,
    FormLabel,
    FormItem,
 } from "@/components/ui/form";
 import { Button } from "@/components/ui/button";
-import { Pencil, PlusCircle } from "lucide-react";
+import { PlusCircle, Loader2 } from "lucide-react";
 import { Input } from "@/components/ui/input";
 import toast from "react-hot-toast";
-import Link from "next/link";
+import ChaptersList from "./ChaptersList";
 
 type Props = {
    initialData: {
@@ -67,19 +66,42 @@ const ChapterForm = ({ courseId, initialData }: Props) => {
 
          // rerender new data
          router.refresh();
-         router.push(`${courseId}/chapters/${res.data.id}`);
       } catch {
          toast.error("somthing went wrong");
       }
    };
+
+   const handleReorderChapters = async (
+      updatedData: Pick<Chapter, "id" | "position">[]
+   ) => {
+      try {
+         setIsUpdating(true);
+         await axios.put(
+            `/api/courses/${courseId}/chapters/reorder`,
+            updatedData
+         );
+         toast.success("Reordered chapters successfully");
+         router.refresh();
+      } catch (error) {
+         toast.error("Somthing went wrong");
+         router.refresh();
+      } finally {
+         setIsUpdating(false);
+      }
+   };
+
    const toggleCreating = () => setIsCreating((state) => !state);
    const toggleUpdating = () => setIsCreating((state) => !state);
 
    return (
       <div className="relative bg-slate-100 rounded-md p-4">
-         <div className="font-medium flex items-center justify-between">
+         {isUpdating && (
+            <div className="absolute inset-0 rounded-md grid place-content-center bg-slate-500/20">
+               <Loader2 className="w-8 h-8 animate-spin" />
+            </div>
+         )}
+         <div className="font-medium flex items-center justify-between mb-2">
             <h3>Course Chapters</h3>
-
             <Button
                onClick={toggleCreating}
                variant="link"
@@ -106,17 +128,10 @@ const ChapterForm = ({ courseId, initialData }: Props) => {
                   <h6>No Chapter</h6>
                ) : (
                   <>
-                     <div className="flex flex-col gap-y-1 mb-3">
-                        {initialData.chapters.map((chapter) => (
-                           <Link
-                              key={chapter.id}
-                              href={`${courseId}/chapters/${chapter.id}`}
-                              className="hover:underline text-base"
-                           >
-                              {chapter.title}
-                           </Link>
-                        ))}
-                     </div>
+                     <ChaptersList
+                        items={initialData.chapters}
+                        onReorder={handleReorderChapters}
+                     />
                      <p className="mt-1">
                         Drag and drop to reorder the chapters{" "}
                      </p>

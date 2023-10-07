@@ -19,7 +19,7 @@ import ImageForm from "../_components/ImageForm";
 import CategoryForm from "../_components/CategoryForm";
 import PriceForm from "../_components/PriceForm";
 import AttachmentsForm from "../_components/AttachmentsForm";
-import ChapterForm from "../_components/ChapterForm";
+import ChapterForm from "../_components/ChaptersForm";
 
 type Props = {
    params: {

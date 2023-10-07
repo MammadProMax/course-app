@@ -23,16 +23,14 @@ export async function POST(
       });
       if (!courseOwner) return new NextResponse("forbidden", { status: 403 });
 
-      const lastChapter = await db.chapter.findFirst({
-         where: {
-            courseId,
-         },
+      const allChapters = await db.chapter.findMany({
          orderBy: {
             position: "desc",
          },
       });
 
-      const newPosition = lastChapter ? lastChapter.position++ : 1;
+      const newPosition =
+         allChapters.length !== 0 ? allChapters[0].position + 1 : 0;
 
       const newChapter = await db.chapter.create({
          data: {

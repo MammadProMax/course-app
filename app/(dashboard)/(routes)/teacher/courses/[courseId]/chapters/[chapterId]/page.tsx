@@ -11,7 +11,6 @@ type AppProps = {
 
 const page = async ({ params: { chapterId, courseId } }: AppProps) => {
    const chapter = (await getChapter(chapterId)) as Chapter;
-   console.log(chapter);
 
    return (
       <div>
