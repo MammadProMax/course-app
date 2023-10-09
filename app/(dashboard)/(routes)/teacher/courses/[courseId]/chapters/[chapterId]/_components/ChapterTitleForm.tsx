@@ -1,12 +1,15 @@
 "use client";
 
-import React, { useState, useContext } from "react";
+import React, { useState } from "react";
+import { useRouter } from "next/navigation";
 
 import { z } from "zod";
 import axios from "axios";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 
+import { Pencil, RefreshCcw } from "lucide-react";
+import toast from "react-hot-toast";
 import {
    Form,
    FormControl,
@@ -17,10 +20,8 @@ import {
 } from "@/components/ui/form";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import { Pencil, RefreshCcw } from "lucide-react";
-import toast from "react-hot-toast";
-import { useRouter } from "next/navigation";
 import VerifiedIconbadge from "@/components/global/VerifiedIconbadge";
+import Transitioned from "@/components/global/Transitioned";
 
 const formSchema = z.object({
    title: z.string().min(1).max(32),
@@ -37,9 +38,8 @@ type AppProps = {
 
 const ChapterTitleForm = ({ chapterId, courseId, initialData }: AppProps) => {
    // hooks
-
    const router = useRouter();
-   const [isEditing, setIsEditing] = useState<boolean>(false);
+   const [isEditing, setIsEditing] = useState(false);
 
    const form = useForm<FormType>({
       resolver: zodResolver(formSchema),
@@ -94,40 +94,53 @@ const ChapterTitleForm = ({ chapterId, courseId, initialData }: AppProps) => {
          {!isEditing ? (
             <p className="text-sm text-slate-500">{initialData.title}</p>
          ) : (
-            <Form {...form}>
-               <form onSubmit={form.handleSubmit(handleSubmit)}>
-                  <FormField
-                     name="title"
-                     control={form.control}
-                     render={({ field }) => (
-                        <FormItem>
-                           <FormLabel>title</FormLabel>
-                           <FormControl>
-                              <Input
-                                 {...field}
-                                 disabled={isSubmitting}
-                                 placeholder="e.g. 'Introduction to the course'"
-                                 variant="inherit"
-                              />
-                           </FormControl>
-                           <div className="flex justify-between items-center pt-1">
-                              <FormDescription>
-                                 This is your display chapter title.
-                              </FormDescription>
-                              <Button
-                                 disabled={!isValid || isSubmitting}
-                                 type="submit"
-                                 size="sm"
-                                 variant="outline"
-                              >
-                                 Save
-                              </Button>
-                           </div>
-                        </FormItem>
-                     )}
-                  />
-               </form>
-            </Form>
+            <Transitioned
+               dependency={isEditing}
+               enter="transition duration-500"
+               enterFrom="opacity-0 -translate-y-2"
+               enterTo="opacity-100"
+            >
+               <Form {...form}>
+                  <form onSubmit={form.handleSubmit(handleSubmit)}>
+                     <FormField
+                        name="title"
+                        control={form.control}
+                        render={({ field }) => (
+                           <FormItem>
+                              <FormLabel>title</FormLabel>
+                              <FormControl>
+                                 <Transitioned.Child
+                                    enter="transition duration-700"
+                                    enterFrom="opacity-0 -translate-y-2"
+                                    enterTo="opacity-100"
+                                 >
+                                    <Input
+                                       {...field}
+                                       disabled={isSubmitting}
+                                       placeholder="e.g. 'Introduction to the course'"
+                                       variant="inherit"
+                                    />
+                                 </Transitioned.Child>
+                              </FormControl>
+                              <div className="flex justify-between items-center pt-1">
+                                 <FormDescription>
+                                    This is your display chapter title.
+                                 </FormDescription>
+                                 <Button
+                                    disabled={!isValid || isSubmitting}
+                                    type="submit"
+                                    size="sm"
+                                    variant="outline"
+                                 >
+                                    Save
+                                 </Button>
+                              </div>
+                           </FormItem>
+                        )}
+                     />
+                  </form>
+               </Form>
+            </Transitioned>
          )}
       </div>
    );
