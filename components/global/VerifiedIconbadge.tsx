@@ -19,7 +19,7 @@ const VerifiedIconbadge = ({
                Valid && "text-gray-400"
             )}
          />
-         <div className="opacity-0 transition-all duration-500 ease-out peer-hover:opacity-100 peer-hover:translate-x-1">
+         <div className="opacity-0 transition-all -translate-y-0.5 duration-500 ease-out peer-hover:opacity-100 peer-hover:translate-x-1">
             {!Valid ? (
                <Badge variant="default">Completed</Badge>
             ) : (

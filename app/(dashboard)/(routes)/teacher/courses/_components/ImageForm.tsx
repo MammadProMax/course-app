@@ -11,7 +11,7 @@ import Image from "next/image";
 import FileUploader from "@/components/global/FileUploader";
 import { Course } from "@prisma/client";
 import { cn } from "@/lib/utils";
-import VerifiedIconbadge from "./VerifiedIconbadge";
+import VerifiedIconbadge from "@/components/global/VerifiedIconbadge";
 
 type Props = {
    initialData: {

@@ -21,9 +21,9 @@ import {
 } from "@/components/ui/form";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import { Pencil, Plus, RefreshCcw, Verified } from "lucide-react";
+import { Pencil, Plus, RefreshCcw } from "lucide-react";
 import toast from "react-hot-toast";
-import VerifiedIconbadge from "./VerifiedIconbadge";
+import VerifiedIconbadge from "@/components/global/VerifiedIconbadge";
 
 type Props = {
    initialData: {

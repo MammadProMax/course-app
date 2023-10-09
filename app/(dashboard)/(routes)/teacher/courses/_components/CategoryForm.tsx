@@ -15,7 +15,7 @@ import { Pencil, Plus, Verified } from "lucide-react";
 import toast from "react-hot-toast";
 import { cn } from "@/lib/utils";
 import { Combobox, ComboboxItems } from "@/components/ui/combobox";
-import VerifiedIconbadge from "./VerifiedIconbadge";
+import VerifiedIconbadge from "@/components/global/VerifiedIconbadge";
 
 type Props = {
    initialData: {

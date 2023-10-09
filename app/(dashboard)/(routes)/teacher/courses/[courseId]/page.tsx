@@ -64,7 +64,9 @@ const CoursePage = async ({ params: { courseId } }: Props) => {
                <div className="col-span-1 flex flex-col gap-y-6">
                   <div className="flex items-center gap-x-2 mt-3">
                      <IconBadge icon={LayoutDashboard} />
-                     <h2 className="text-xl">Customize your course</h2>
+                     <h2 className="text-xl font-semibold">
+                        Customize your course
+                     </h2>
                   </div>
                   <TitleForm
                      courseId={courseId}
@@ -91,7 +93,7 @@ const CoursePage = async ({ params: { courseId } }: Props) => {
                <div className="col-span-1 flex flex-col gap-y-6">
                   <div className="flex items-center gap-x-2 mt-3">
                      <IconBadge icon={ListChecks} />
-                     <h2 className="text-xl">Course chapters</h2>
+                     <h2 className="text-xl font-semibold">Course chapters</h2>
                   </div>
                   <ChapterForm
                      courseId={courseId}
@@ -99,7 +101,9 @@ const CoursePage = async ({ params: { courseId } }: Props) => {
                   />
                   <div className="flex items-center gap-x-2 mt-3">
                      <IconBadge icon={CircleDollarSign} />
-                     <h3 className="text-xl">sell your courses</h3>
+                     <h3 className="text-xl font-semibold">
+                        sell your courses
+                     </h3>
                   </div>
                   <PriceForm
                      courseId={courseId}
@@ -107,7 +111,9 @@ const CoursePage = async ({ params: { courseId } }: Props) => {
                   />
                   <div className="flex items-center gap-x-2 mt-3">
                      <IconBadge icon={File} />
-                     <h2 className="text-xl">Resources & Attachments</h2>
+                     <h2 className="text-xl font-semibold">
+                        Resources & Attachments
+                     </h2>
                   </div>
                   <AttachmentsForm courseId={courseId} initialData={course} />
                </div>

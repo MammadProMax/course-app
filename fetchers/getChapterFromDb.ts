@@ -1,13 +1,16 @@
 import { db } from "@/lib/db";
 import { notFound } from "next/navigation";
 import { PrismaClientKnownRequestError } from "@prisma/client/runtime/library";
-import { Chapter } from "@prisma/client";
 
-export default async function getChapter(chapterId: string) {
+export default async function getChapter(chapterId: string, courseId: string) {
    try {
       const chapter = await db.chapter.findUnique({
          where: {
             id: chapterId,
+            courseId,
+         },
+         include: {
+            muxData: true,
          },
       });
       if (!chapter) notFound();

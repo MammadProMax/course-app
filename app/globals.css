@@ -81,4 +81,8 @@ body,
    }
 }
 
+.ql-editor {
+   font-size: 1.15rem !important;
+}
+
 @import "~@uploadthing/react/styles.css";

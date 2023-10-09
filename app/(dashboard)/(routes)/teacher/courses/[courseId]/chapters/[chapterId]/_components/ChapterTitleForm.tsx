@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useState, useContext } from "react";
 
 import { z } from "zod";
 import axios from "axios";
@@ -17,33 +17,30 @@ import {
 } from "@/components/ui/form";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import { Pencil, RefreshCcw, Verified } from "lucide-react";
+import { Pencil, RefreshCcw } from "lucide-react";
 import toast from "react-hot-toast";
 import { useRouter } from "next/navigation";
-import { cn } from "@/lib/utils";
 import VerifiedIconbadge from "@/components/global/VerifiedIconbadge";
 
-type Props = {
+const formSchema = z.object({
+   title: z.string().min(1).max(32),
+});
+type FormType = z.infer<typeof formSchema>;
+
+type AppProps = {
    initialData: {
       title: string;
    };
    courseId: string;
+   chapterId: string;
 };
 
-const formSchema = z.object({
-   title: z
-      .string()
-      .min(1, {
-         message: "this field is required",
-      })
-      .max(32),
-});
-type FormType = z.infer<typeof formSchema>;
-
-const TitleForm = ({ courseId, initialData }: Props) => {
+const ChapterTitleForm = ({ chapterId, courseId, initialData }: AppProps) => {
    // hooks
+
    const router = useRouter();
    const [isEditing, setIsEditing] = useState<boolean>(false);
+
    const form = useForm<FormType>({
       resolver: zodResolver(formSchema),
       defaultValues: {
@@ -55,8 +52,11 @@ const TitleForm = ({ courseId, initialData }: Props) => {
    const { isSubmitting, isValid } = form.formState;
    const handleSubmit = async (data: FormType) => {
       try {
-         await axios.patch(`/api/courses/${courseId}`, data);
-         toast.success("Course Updated");
+         await axios.patch(
+            `/api/courses/${courseId}/chapters/${chapterId}`,
+            data
+         );
+         toast.success("Chapter Updated");
          toggleEdit();
          router.refresh();
       } catch {
@@ -69,11 +69,11 @@ const TitleForm = ({ courseId, initialData }: Props) => {
       <div className="relative bg-slate-100 rounded-md p-4">
          <div className="font-medium flex items-center justify-between">
             <VerifiedIconbadge
-               title="Course Title"
+               title="Chapter Title"
                Valid={!initialData.title}
             />
             {isSubmitting ? (
-               <RefreshCcw className="h-6 w-6 animate-reverse-spin-slower text-sky-400" />
+               <RefreshCcw className="h-6 w-6 animate-reverse-spin-slower text-slate-400" />
             ) : (
                <Button
                   onClick={toggleEdit}
@@ -106,13 +106,13 @@ const TitleForm = ({ courseId, initialData }: Props) => {
                               <Input
                                  {...field}
                                  disabled={isSubmitting}
-                                 placeholder="e.g. 'Advanced web development'"
+                                 placeholder="e.g. 'Introduction to the course'"
                                  variant="inherit"
                               />
                            </FormControl>
                            <div className="flex justify-between items-center pt-1">
                               <FormDescription>
-                                 This is your public display title.
+                                 This is your display chapter title.
                               </FormDescription>
                               <Button
                                  disabled={!isValid || isSubmitting}
@@ -133,4 +133,4 @@ const TitleForm = ({ courseId, initialData }: Props) => {
    );
 };
 
-export default TitleForm;
+export default ChapterTitleForm;
