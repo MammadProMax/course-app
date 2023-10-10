@@ -8,14 +8,16 @@ import toast from "react-hot-toast";
 
 import { Button } from "@/components/ui/button";
 import {
-   DialogDescription,
-   DialogHeader,
-   DialogTitle,
-   Dialog,
-   DialogContent,
-   DialogTrigger,
-   DialogFooter,
-} from "@/components/ui/dialog";
+   AlertDialog,
+   AlertDialogTrigger,
+   AlertDialogContent,
+   AlertDialogCancel,
+   AlertDialogAction,
+   AlertDialogHeader,
+   AlertDialogFooter,
+   AlertDialogTitle,
+   AlertDialogDescription,
+} from "@/components/ui/alert-dialog";
 
 type AppProps = {
    courseId: string;
@@ -38,29 +40,30 @@ const DeleteAttDialog = ({ context, courseId, toggleEdit }: AppProps) => {
       }
    };
    return (
-      <Dialog>
-         <DialogTrigger asChild>
+      <AlertDialog>
+         <AlertDialogTrigger asChild>
             <Button size="sm" variant="destructive">
                Delete
             </Button>
-         </DialogTrigger>
-         <DialogContent>
-            <DialogHeader>
-               <DialogTitle>
+         </AlertDialogTrigger>
+         <AlertDialogContent>
+            <AlertDialogHeader>
+               <AlertDialogTitle>
                   Are you sure you want delete Attachment ?
-               </DialogTitle>
-               <DialogDescription>
+               </AlertDialogTitle>
+               <AlertDialogDescription>
                   You can not undo deleted item
-               </DialogDescription>
-            </DialogHeader>
+               </AlertDialogDescription>
+            </AlertDialogHeader>
 
-            <DialogFooter>
-               <Button type="button" onClick={deleteItem} variant="destructive">
-                  Sure
+            <AlertDialogFooter>
+               <Button asChild onClick={deleteItem} variant="destructive">
+                  <AlertDialogAction>Sure</AlertDialogAction>
                </Button>
-            </DialogFooter>
-         </DialogContent>
-      </Dialog>
+               <AlertDialogCancel>Cancel</AlertDialogCancel>
+            </AlertDialogFooter>
+         </AlertDialogContent>
+      </AlertDialog>
    );
 };
 
