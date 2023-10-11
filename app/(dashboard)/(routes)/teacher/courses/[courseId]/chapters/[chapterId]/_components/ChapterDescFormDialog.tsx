@@ -50,23 +50,27 @@ const ChapterDescFormDialog = ({
    // other
    const { isSubmitting, isValid } = form.formState;
    const handleSubmit = async (data: FormType) => {
-      const filteredData = data.description.includes("<br>")
-         ? {
-              description: null,
-           }
-         : data;
+      try {
+         const filteredData = data.description.includes("<br>")
+            ? {
+                 description: null,
+              }
+            : data;
 
-      toggleDialog();
-      const update = axios.patch(
-         `/api/courses/${courseId}/chapters/${chapterId}`,
-         filteredData
-      );
-      await toast.promise(update, {
-         loading: "saving ...",
-         error: "Somthing went wrong",
-         success: "Description saved",
-      });
-      router.refresh();
+         toggleDialog();
+         const update = axios.patch(
+            `/api/courses/${courseId}/chapters/${chapterId}`,
+            filteredData
+         );
+         await toast.promise(update, {
+            loading: "saving ...",
+            error: "Somthing went wrong",
+            success: "Description saved",
+         });
+         router.refresh();
+      } catch (error) {
+         toast.error("somthing went wrong");
+      }
    };
    return (
       <div className="px-6 pt-5">

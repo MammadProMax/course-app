@@ -1,13 +1,15 @@
 import React from "react";
 import Link from "next/link";
+import { notFound } from "next/navigation";
 
 import getChapter from "@/fetchers/getChapterFromDb";
-import { Chapter } from "@prisma/client";
 
-import { ArrowLeft, LayoutDashboard } from "lucide-react";
+import { ArrowLeft, Eye, LayoutDashboard, Video } from "lucide-react";
 import { IconBadge } from "@/components/global/IconBadge";
 import ChapterTitleForm from "./_components/ChapterTitleForm";
 import ChapterDescriptionForm from "./_components/ChapterDescForm";
+import ChapterAccessForm from "./_components/ChapterAccessForm";
+import ChapterVideoForm from "./_components/ChapterVideoForm.tsx";
 
 type AppProps = {
    params: {
@@ -17,7 +19,8 @@ type AppProps = {
 };
 
 const ChapterPage = async ({ params: { chapterId, courseId } }: AppProps) => {
-   const chapter = (await getChapter(chapterId, courseId)) as Chapter;
+   const chapter = await getChapter(chapterId, courseId);
+   if (!chapter) return notFound();
 
    const requiredFields = [
       chapter.title,
@@ -49,27 +52,41 @@ const ChapterPage = async ({ params: { chapterId, courseId } }: AppProps) => {
             </div>
          </div>
          <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 mt-16 max-w-7xl">
-            {/* chapter context */}
-
-            <div>
-               <div className="space-y-4">
-                  <div className="flex items-center gap-x-2">
-                     <IconBadge icon={LayoutDashboard} />
-                     <h2 className="text-xl font-semibold">
-                        Customize your chapter
-                     </h2>
-                  </div>
-                  <ChapterTitleForm
-                     chapterId={chapterId}
-                     courseId={courseId}
-                     initialData={{ title: chapter.title }}
-                  />
-                  <ChapterDescriptionForm
-                     chapterId={chapterId}
-                     courseId={courseId}
-                     initialData={{ description: chapter.description }}
-                  />
+            <div className="space-y-4">
+               <div className="flex items-center gap-x-2">
+                  <IconBadge icon={LayoutDashboard} />
+                  <h2 className="text-xl">Customize your chapter</h2>
                </div>
+               <ChapterTitleForm
+                  chapterId={chapterId}
+                  courseId={courseId}
+                  initialData={{ title: chapter.title }}
+               />
+               <ChapterDescriptionForm
+                  chapterId={chapterId}
+                  courseId={courseId}
+                  initialData={{ description: chapter.description }}
+               />
+               <div className="flex items-center gap-x-2">
+                  <IconBadge icon={Eye} />
+                  <h2 className="text-xl">Access Settings</h2>
+               </div>
+               <ChapterAccessForm
+                  chapterId={chapterId}
+                  courseId={courseId}
+                  initialData={{ isFree: chapter.isFree }}
+               />
+            </div>
+            <div className="space-y-4">
+               <div className="flex items-center gap-x-2">
+                  <IconBadge icon={Video} />
+                  <h2 className="text-xl">Add a video</h2>
+               </div>
+               <ChapterVideoForm
+                  chapterId={chapterId}
+                  courseId={courseId}
+                  initialData={chapter}
+               />
             </div>
          </div>
       </div>
