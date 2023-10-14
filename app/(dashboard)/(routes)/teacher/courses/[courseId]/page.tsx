@@ -1,9 +1,10 @@
 import React from "react";
-import { notFound } from "next/navigation";
+import { notFound, redirect } from "next/navigation";
 
 import { PrismaClientKnownRequestError } from "@prisma/client/runtime/library";
 import getCourse from "@/fetchers/getCourseFromDB";
 import getCategories from "@/fetchers/getCategoriesFromDB";
+import { auth } from "@clerk/nextjs";
 
 import { IconBadge } from "@/components/global/IconBadge";
 import {
@@ -29,8 +30,11 @@ type Props = {
 
 const CoursePage = async ({ params: { courseId } }: Props) => {
    try {
+      const { userId } = auth();
       const course = await getCourse(courseId);
+
       if (!course) return notFound();
+      if (userId !== course.userId) return redirect("/teacher/courses");
 
       const categories = await getCategories();
 

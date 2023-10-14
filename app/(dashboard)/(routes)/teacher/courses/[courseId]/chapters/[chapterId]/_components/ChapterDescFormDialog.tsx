@@ -51,16 +51,10 @@ const ChapterDescFormDialog = ({
    const { isSubmitting, isValid } = form.formState;
    const handleSubmit = async (data: FormType) => {
       try {
-         const filteredData = data.description.includes("<br>")
-            ? {
-                 description: null,
-              }
-            : data;
-
          toggleDialog();
          const update = axios.patch(
             `/api/courses/${courseId}/chapters/${chapterId}`,
-            filteredData
+            data
          );
          await toast.promise(update, {
             loading: "saving ...",

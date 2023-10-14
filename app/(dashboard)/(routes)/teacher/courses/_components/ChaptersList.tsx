@@ -92,11 +92,19 @@ const ChaptersList = ({ items, onReorder }: AppProps) => {
                               </div>
                               {chapter.title}
                               <div className="ml-auto pr-2 flex items-center gap-x-2">
-                                 {chapter.isFree && <Badge>Free</Badge>}
+                                 {chapter.isFree && (
+                                    <Badge
+                                       variant="secondary"
+                                       className="border-slate-400 border cursor-default"
+                                    >
+                                       Free
+                                    </Badge>
+                                 )}
                                  <Badge
                                     className={cn(
                                        "bg-slate-500 cursor-default hover:bg-slate-500",
-                                       chapter.isPublished && "bg-sky-700"
+                                       chapter.isPublished &&
+                                          "bg-sky-700 hover:bg-sky-700"
                                     )}
                                  >
                                     {chapter.isPublished
@@ -106,13 +114,7 @@ const ChaptersList = ({ items, onReorder }: AppProps) => {
                                  <Link
                                     href={`${chapter.courseId}/chapters/${chapter.id}`}
                                  >
-                                    <Badge
-                                       className={cn(
-                                          "bg-slate-500 cursor-pointer hover:border hover:bg-transparent hover:text-slate-700 hover:border-slate-700 transition"
-                                       )}
-                                    >
-                                       <Pencil className="w-4 h-4" />
-                                    </Badge>
+                                    <Pencil className="w-4 h-4" />
                                  </Link>
                               </div>
                            </div>

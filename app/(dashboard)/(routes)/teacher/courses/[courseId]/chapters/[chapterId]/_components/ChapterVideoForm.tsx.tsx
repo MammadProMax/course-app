@@ -77,8 +77,8 @@ const ChapterVideoForm = ({ courseId, initialData, chapterId }: Props) => {
                   <>
                      <div className="relative aspect-video mt-2">
                         <MuxPlayer
-                           streamType="on-demand"
                            playbackId={initialData.muxData.playbackId || ""}
+                           streamType="on-demand"
                            metadata={{
                               video_id: initialData.muxData.id,
                               video_title: initialData.title,
