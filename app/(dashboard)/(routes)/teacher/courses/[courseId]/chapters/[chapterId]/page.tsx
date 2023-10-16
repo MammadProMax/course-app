@@ -3,6 +3,7 @@ import Link from "next/link";
 import { notFound } from "next/navigation";
 
 import getChapter from "@/fetchers/getChapterFromDb";
+import getCourse from "@/fetchers/getCourseFromDB";
 
 import { ArrowLeft, Eye, LayoutDashboard, Video } from "lucide-react";
 import { IconBadge } from "@/components/global/IconBadge";
@@ -24,6 +25,8 @@ const ChapterPage = async ({ params: { chapterId, courseId } }: AppProps) => {
    const chapter = await getChapter(chapterId, courseId);
    if (!chapter) return notFound();
 
+   const coursePrice = (await getCourse(courseId))?.price;
+
    const requiredFields = [
       chapter.title,
       chapter.description,
@@ -34,14 +37,32 @@ const ChapterPage = async ({ params: { chapterId, courseId } }: AppProps) => {
 
    const completedText = `(${completedFields}/${totalFields})`;
    const isCompleted = requiredFields.every(Boolean);
-
+   const freeCourseAccess = !coursePrice && chapter.isFree ? true : false;
    return (
       <>
+         {!freeCourseAccess && (
+            <Banner
+               variant="destructive"
+               label={
+                  <p>
+                     This course is free so it must be free chapter. set it free
+                     in
+                     <Link className="ml-1 underline" href="#access-settings">
+                        Chapter Access Control
+                     </Link>
+                  </p>
+               }
+               className="px-8"
+            />
+         )}
          {!chapter.isPublished ? (
-            <Banner label="this chapter is unpublished" className="px-8" />
+            <Banner
+               label="This chapter is unpublished and is not visable to users"
+               className="px-8"
+            />
          ) : (
             <Banner
-               label="this chapter is published"
+               label="This chapter is published and is visable to users"
                className="px-8"
                variant="success"
             />
@@ -66,7 +87,7 @@ const ChapterPage = async ({ params: { chapterId, courseId } }: AppProps) => {
                         <span>Compelete all fields {completedText}</span>
                      </div>
                      <ChapterActions
-                        disabled={!isCompleted}
+                        disabled={!isCompleted || !freeCourseAccess}
                         chapterId={chapterId}
                         courseId={courseId}
                         isPublished={chapter.isPublished}
@@ -94,6 +115,7 @@ const ChapterPage = async ({ params: { chapterId, courseId } }: AppProps) => {
                      <IconBadge icon={Eye} />
                      <h2 className="text-xl">Access Settings</h2>
                   </div>
+                  <div id="access-settings"></div>
                   <ChapterAccessForm
                      chapterId={chapterId}
                      courseId={courseId}

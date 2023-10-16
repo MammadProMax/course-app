@@ -29,15 +29,6 @@ export async function PATCH(
       const { isPublished, ...updatedData }: Partial<Chapter> =
          await req.json();
 
-      if (
-         !updatedData ||
-         Object.keys(updatedData).length === 0 ||
-         typeof updatedData !== "object"
-      )
-         return new NextResponse(undefined, {
-            status: 402,
-         });
-
       const courseOwner = await db.course.findUnique({
          where: {
             id: courseId,

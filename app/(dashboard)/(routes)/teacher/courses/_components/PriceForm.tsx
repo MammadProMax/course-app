@@ -66,10 +66,7 @@ const PriceForm = ({ courseId, initialData }: Props) => {
    return (
       <div className="relative bg-slate-100 rounded-md p-4">
          <div className="font-medium flex items-center justify-between">
-            <VerifiedIconbadge
-               title="Course Price"
-               Valid={!initialData.price}
-            />
+            <h3>Course Price</h3>
             {isSubmitting ? (
                <RefreshCcw className="h-6 w-6 animate-reverse-spin-slower text-sky-400" />
             ) : (

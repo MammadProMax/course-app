@@ -67,7 +67,7 @@ const ChapterAccessForm = ({ chapterId, courseId, initialData }: AppProps) => {
    return (
       <div className="relative bg-slate-100 rounded-md p-4">
          <div className="font-medium flex items-center justify-between">
-            <h4>Chapter Access Controll</h4>
+            <h4>Chapter Access Control</h4>
 
             <Button
                disabled={isSubmitting}

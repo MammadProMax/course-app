@@ -21,6 +21,8 @@ import CategoryForm from "../_components/CategoryForm";
 import PriceForm from "../_components/PriceForm";
 import AttachmentsForm from "../_components/AttachmentsForm";
 import ChapterForm from "../_components/ChaptersForm";
+import Banner from "@/components/global/Banner";
+import CourseActions from "../_components/CourseActions";
 
 type Props = {
    params: {
@@ -42,7 +44,6 @@ const CoursePage = async ({ params: { courseId } }: Props) => {
          course.title,
          course.description,
          course.imageUrl,
-         course.price,
          course.categoryId,
       ];
 
@@ -50,79 +51,117 @@ const CoursePage = async ({ params: { courseId } }: Props) => {
       const completedFields = requiredFields.filter(Boolean).length;
 
       const completionText = `(${completedFields} of ${totalFields})`;
-
+      const isComplete = requiredFields.every(Boolean);
+      const hasPublishedChapter = course.chapters.some(
+         (chapter) => chapter.isPublished
+      );
       //   render
 
       return (
-         <div className="p-6">
-            <div className="flex items-center justify-between">
-               <div className="flex flex-col gap-y-2">
-                  <h1 className="text-2xl font font-medium">Course setup</h1>
-                  <span className="text-sm text-slate-700">
-                     Complete all fields {completionText}
-                  </span>
+         <>
+            {!course.isPublished ? (
+               <Banner
+                  iconSize="md"
+                  label={
+                     <div className="flex flex-col content-start ml-1">
+                        <p className="font-semibold">
+                           this course is unpublished and is not visable to
+                           users
+                        </p>
+                        <p className="w-fit text-xs text-gray-600">
+                           At least one chapter must be published
+                        </p>
+                     </div>
+                  }
+                  className="px-8"
+               />
+            ) : (
+               <Banner
+                  label="this course is published and is visable to users"
+                  className="px-8"
+                  variant="success"
+               />
+            )}
+            <div className="p-6">
+               <div className="flex items-center justify-between">
+                  <div className="flex flex-col gap-y-2">
+                     <h1 className="text-2xl font font-medium">Course setup</h1>
+                     <span className="text-sm text-slate-700">
+                        Complete all fields {completionText}
+                     </span>
+                  </div>
+                  <CourseActions
+                     courseId={courseId}
+                     disabled={!isComplete || !hasPublishedChapter}
+                     isPublished={course.isPublished}
+                  />
+               </div>
+
+               <div className="max-w-7xl mx-auto grid grid-cols-1 lg:grid-cols-2 gap-8 mt-9">
+                  <div className="col-span-1 flex flex-col gap-y-6">
+                     <div className="flex items-center gap-x-2 mt-3">
+                        <IconBadge icon={LayoutDashboard} />
+                        <h2 className="text-xl font-semibold">
+                           Customize your course
+                        </h2>
+                     </div>
+                     <TitleForm
+                        courseId={courseId}
+                        initialData={{ title: course.title }}
+                     />
+
+                     <DescriptionForm
+                        courseId={courseId}
+                        initialData={{ description: course.description }}
+                     />
+                     <CategoryForm
+                        courseId={course.id}
+                        initialData={{ categoryId: course.categoryId }}
+                        options={categories.map((category) => ({
+                           label: category.name,
+                           value: category.id,
+                        }))}
+                     />
+                     <ImageForm
+                        courseId={courseId}
+                        initialData={{ imageUrl: course.imageUrl }}
+                     />
+                  </div>
+                  <div className="col-span-1 flex flex-col gap-y-6">
+                     <div className="flex items-center gap-x-2 mt-3">
+                        <IconBadge icon={ListChecks} />
+                        <h2 className="text-xl font-semibold">
+                           Course chapters
+                        </h2>
+                     </div>
+                     <ChapterForm
+                        courseId={courseId}
+                        initialData={{ chapters: course.chapters }}
+                     />
+                     <div className="flex items-center gap-x-2 mt-3">
+                        <IconBadge icon={CircleDollarSign} />
+                        <h3 className="text-xl font-semibold">
+                           sell your courses
+                        </h3>
+                     </div>
+                     <PriceForm
+                        courseId={courseId}
+                        initialData={{ price: course.price }}
+                     />
+                     <div className="flex items-center gap-x-2 mt-3">
+                        <IconBadge icon={File} />
+                        <h2 className="text-xl font-semibold">
+                           Resources & Attachments
+                        </h2>
+                     </div>
+                     <AttachmentsForm
+                        courseId={courseId}
+                        initialData={course}
+                     />
+                  </div>
                </div>
             </div>
-
-            <div className="max-w-7xl mx-auto grid grid-cols-1 lg:grid-cols-2 gap-8 mt-9">
-               <div className="col-span-1 flex flex-col gap-y-6">
-                  <div className="flex items-center gap-x-2 mt-3">
-                     <IconBadge icon={LayoutDashboard} />
-                     <h2 className="text-xl font-semibold">
-                        Customize your course
-                     </h2>
-                  </div>
-                  <TitleForm
-                     courseId={courseId}
-                     initialData={{ title: course.title }}
-                  />
-
-                  <DescriptionForm
-                     courseId={courseId}
-                     initialData={{ description: course.description }}
-                  />
-                  <CategoryForm
-                     courseId={course.id}
-                     initialData={{ categoryId: course.categoryId }}
-                     options={categories.map((category) => ({
-                        label: category.name,
-                        value: category.id,
-                     }))}
-                  />
-                  <ImageForm
-                     courseId={courseId}
-                     initialData={{ imageUrl: course.imageUrl }}
-                  />
-               </div>
-               <div className="col-span-1 flex flex-col gap-y-6">
-                  <div className="flex items-center gap-x-2 mt-3">
-                     <IconBadge icon={ListChecks} />
-                     <h2 className="text-xl font-semibold">Course chapters</h2>
-                  </div>
-                  <ChapterForm
-                     courseId={courseId}
-                     initialData={{ chapters: course.chapters }}
-                  />
-                  <div className="flex items-center gap-x-2 mt-3">
-                     <IconBadge icon={CircleDollarSign} />
-                     <h3 className="text-xl font-semibold">
-                        sell your courses
-                     </h3>
-                  </div>
-                  <PriceForm
-                     courseId={courseId}
-                     initialData={{ price: course.price }}
-                  />
-                  <div className="flex items-center gap-x-2 mt-3">
-                     <IconBadge icon={File} />
-                     <h2 className="text-xl font-semibold">
-                        Resources & Attachments
-                     </h2>
-                  </div>
-                  <AttachmentsForm courseId={courseId} initialData={course} />
-               </div>
-            </div>
-         </div>
+         </>
       );
 
       //
@@ -133,6 +172,7 @@ const CoursePage = async ({ params: { courseId } }: Props) => {
             notFound();
          }
       }
+      return notFound();
    }
 };
 

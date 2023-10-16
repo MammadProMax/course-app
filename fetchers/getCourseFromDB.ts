@@ -9,6 +9,7 @@ export default async function getCourse(id: string) {
    const course = db.course.findUnique({
       where: {
          id,
+         userId,
       },
       include: {
          attachments: {
