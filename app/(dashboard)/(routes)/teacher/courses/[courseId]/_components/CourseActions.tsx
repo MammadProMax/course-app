@@ -39,6 +39,7 @@ const CourseActions = ({ courseId, disabled, isPublished }: Props) => {
          });
 
          router.push("/teacher/courses");
+         router.refresh();
       } catch (error) {
          console.log(error);
       } finally {

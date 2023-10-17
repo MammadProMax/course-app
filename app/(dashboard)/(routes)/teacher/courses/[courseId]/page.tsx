@@ -14,15 +14,15 @@ import {
    ListChecks,
 } from "lucide-react";
 
-import TitleForm from "../_components/TitleForm";
-import DescriptionForm from "../_components/DescriptionForm";
-import ImageForm from "../_components/ImageForm";
-import CategoryForm from "../_components/CategoryForm";
-import PriceForm from "../_components/PriceForm";
-import AttachmentsForm from "../_components/AttachmentsForm";
-import ChapterForm from "../_components/ChaptersForm";
+import TitleForm from "./_components/TitleForm";
+import DescriptionForm from "./_components/DescriptionForm";
+import ImageForm from "./_components/ImageForm";
+import CategoryForm from "./_components/CategoryForm";
+import PriceForm from "./_components/PriceForm";
+import AttachmentsForm from "./_components/AttachmentsForm";
+import ChapterForm from "./_components/ChaptersForm";
 import Banner from "@/components/global/Banner";
-import CourseActions from "../_components/CourseActions";
+import CourseActions from "./_components/CourseActions";
 
 type Props = {
    params: {
