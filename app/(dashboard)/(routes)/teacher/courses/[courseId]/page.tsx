@@ -3,7 +3,7 @@ import { notFound, redirect } from "next/navigation";
 
 import { PrismaClientKnownRequestError } from "@prisma/client/runtime/library";
 import getCourse from "@/fetchers/getCourseFromDB";
-import getCategories from "@/fetchers/getCategoriesFromDB";
+import getCategories from "@/fetchers/getAllCategoriesFromDb";
 import { auth } from "@clerk/nextjs";
 
 import { IconBadge } from "@/components/global/IconBadge";

@@ -85,4 +85,9 @@ body,
    font-size: 1.15rem !important;
 }
 
+/* Handle on hover */
+/* .category-list-bar::-webkit-scrollbar-thumb:hover {
+   background: #555;
+} */
+
 @import "~@uploadthing/react/styles.css";

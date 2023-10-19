@@ -1,7 +1,9 @@
 "use client";
 
-import React, { useEffect } from "react";
+import React from "react";
+import Link from "next/link";
 import { useSearchParams } from "next/navigation";
+
 import {
    SortingState,
    ColumnDef,
@@ -25,10 +27,10 @@ import {
    TableRow,
 } from "@/components/ui/table";
 import { Input } from "@/components/ui/input";
-import TablePagination from "./TablePagination";
 import { cn } from "@/lib/utils";
-import Link from "next/link";
 import { Button } from "@/components/ui/button";
+import { ResetButton } from "@/components/global/ResetButton";
+import TablePagination from "./TablePagination";
 
 interface DataTableProps<TData, TValue> {
    columns: ColumnDef<TData, TValue>[];
@@ -89,23 +91,36 @@ export function DataTable<TData, TValue>({
    return (
       <>
          <div className="flex items-center justify-between py-4">
-            <Input
-               placeholder="Filter titles..."
-               value={
-                  (table.getColumn("title")?.getFilterValue() as string) ?? ""
-               }
-               onChange={(event) =>
-                  table.getColumn("title")?.setFilterValue(event.target.value)
-               }
-               className="max-w-sm"
-            />
-            <Button>
+            <div className="relative basis-1/2 sm:max-w-sm">
+               <Input
+                  placeholder="Filter titles..."
+                  value={
+                     (table.getColumn("title")?.getFilterValue() as string) ??
+                     ""
+                  }
+                  onChange={(event) =>
+                     table
+                        .getColumn("title")
+                        ?.setFilterValue(event.target.value)
+                  }
+                  className="w-full"
+               />
+               {(table.getColumn("title")?.getFilterValue() as string) && (
+                  <ResetButton
+                     handleReset={() =>
+                        table.getColumn("title")?.setFilterValue("")
+                     }
+                  />
+               )}
+            </div>
+
+            <Button size="sm" className="text-xs md:text-sm">
                <Link
                   href="/teacher/create"
                   className="flex items-center gap-x-2"
                >
                   <span className="sr-only">New Course</span>
-                  <PlusCircle className="w-5 h-5" />
+                  <PlusCircle className="w-4 h-4" />
                   Add Course
                </Link>
             </Button>
