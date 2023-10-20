@@ -33,7 +33,7 @@ const iconMap: IconMap = {
 
 export default function Categories({ items }: Props) {
    return (
-      <div className="flex flex-wrap justify-center items-center gap-2 overflow-x-auto p-2">
+      <div className="flex md:mt-4 max-sm:pb-3 py-2 md:flex-wrap md:justify-center items-center gap-2 overflow-x-auto p-2 font-medium">
          {items.map((item) => (
             <CategoryItem
                key={item.id}
