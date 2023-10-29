@@ -28,7 +28,7 @@ export default async function CourseLayout({ children, params }: Props) {
    return (
       <main className="h-full">
          <div className="h-[80px] md:pl-80 inset-y-0 w-full z-50 sticky">
-            <CourseNavbar />
+            <CourseNavbar course={course} progressCount={progressCount} />
          </div>
          <div className="hidden md:flex w-80 flex-col inset-y-0 z-50 fixed">
             <CourseSidebar course={course} progress={progressCount} />

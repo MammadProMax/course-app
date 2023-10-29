@@ -10,7 +10,7 @@ import { CheckCircle, Lock, PlayCircle } from "lucide-react";
 import { cn } from "@/lib/utils";
 
 type Props = {
-   id: string;
+   chapterId: string;
    courseId: string;
    title: string;
    isCompleted: boolean;
@@ -18,7 +18,7 @@ type Props = {
 };
 
 export default function SidebarChapterItem({
-   id,
+   chapterId,
    isCompleted,
    isLocked,
    title,
@@ -28,8 +28,8 @@ export default function SidebarChapterItem({
    const pathname = usePathname();
 
    const Icon = isLocked ? Lock : isCompleted ? CheckCircle : PlayCircle;
-   const isActive = pathname.includes(id);
-   const url = `/courses/${courseId}/chapters/${id}`;
+   const isActive = pathname.includes(chapterId);
+   const url = `/courses/${courseId}/chapters/${chapterId}`;
 
    return (
       <Link
