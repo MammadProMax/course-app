@@ -1,9 +1,9 @@
-const { PrismaClient } = require("@prisma/client");
+// const { PrismaClient } = require("@prisma/client");
 
 const db = new PrismaClient();
 
-async function main() {
+async function Xmain() {
    await db.chapter.deleteMany();
 }
 
-main().then(() => console.log("done"));
+Xmain().then(() => console.log("done"));

@@ -46,15 +46,16 @@ export default async function getCourses({
             createdAt: "desc",
          },
       });
-      const courseWithProgress = await Promise.all(
-         courses.map(async (course) => {
-            if (course.purchases.length === 0)
-               return { ...course, progress: null };
-            const progressPercentage = await getProgress(userId, course.id);
+      const courseWithProgress: CourseWithProgressWithCategory[] =
+         await Promise.all(
+            courses.map(async (course) => {
+               if (course.purchases.length === 0)
+                  return { ...course, progress: null };
+               const progressPercentage = await getProgress(userId, course.id);
 
-            return { ...course, progress: progressPercentage };
-         })
-      );
+               return { ...course, progress: progressPercentage };
+            })
+         );
 
       return courseWithProgress;
    } catch (error) {
