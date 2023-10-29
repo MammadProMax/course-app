@@ -56,10 +56,8 @@ export default function SidebarChapterItem({
          <div
             className={cn(
                "ml-auto opacity-0 border-2 border-slate-700 h-full transition-all",
-               {
-                  isCompleted: "border-emerald-700",
-                  isActive: "opacity-100",
-               }
+               isCompleted && "border-emerald-700",
+               isActive && "opacity-100"
             )}
          ></div>
       </Link>

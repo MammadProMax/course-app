@@ -37,10 +37,12 @@ const ChapterPage = async ({ params: { chapterId, courseId } }: AppProps) => {
 
    const completedText = `(${completedFields}/${totalFields})`;
    const isCompleted = requiredFields.every(Boolean);
-   const freeCourseAccess = !coursePrice && chapter.isFree ? true : false;
+   const freeCourseAccess = !coursePrice && !chapter.isFree;
+   console.log(freeCourseAccess);
+
    return (
       <>
-         {!freeCourseAccess && (
+         {freeCourseAccess && (
             <Banner
                variant="destructive"
                label={
@@ -87,7 +89,7 @@ const ChapterPage = async ({ params: { chapterId, courseId } }: AppProps) => {
                         <span>Compelete all fields {completedText}</span>
                      </div>
                      <ChapterActions
-                        disabled={!isCompleted || !freeCourseAccess}
+                        disabled={!isCompleted || freeCourseAccess}
                         chapterId={chapterId}
                         courseId={courseId}
                         isPublished={chapter.isPublished}
