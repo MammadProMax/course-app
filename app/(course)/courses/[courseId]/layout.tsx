@@ -33,7 +33,7 @@ export default async function CourseLayout({ children, params }: Props) {
          <div className="hidden md:flex w-80 flex-col inset-y-0 z-50 fixed">
             <CourseSidebar course={course} progress={progressCount} />
          </div>
-         <section className="md:pl-80 h-full">{children}</section>
+         <section className="md:pl-80 h-[90%]">{children}</section>
       </main>
    );
 }

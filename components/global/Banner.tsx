@@ -22,7 +22,7 @@ const bannerVariants = cva(
 
 type AppProps = VariantProps<typeof bannerVariants> & {
    label: string | React.ReactNode;
-   className: string;
+   className?: string;
    iconSize?: "sm" | "md" | "lg" | "xl";
 };
 const iconMap = {
