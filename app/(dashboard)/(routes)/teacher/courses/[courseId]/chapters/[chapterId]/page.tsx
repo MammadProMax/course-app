@@ -38,7 +38,6 @@ const ChapterPage = async ({ params: { chapterId, courseId } }: AppProps) => {
    const completedText = `(${completedFields}/${totalFields})`;
    const isCompleted = requiredFields.every(Boolean);
    const freeCourseAccess = !coursePrice && !chapter.isFree;
-   console.log(freeCourseAccess);
 
    return (
       <>

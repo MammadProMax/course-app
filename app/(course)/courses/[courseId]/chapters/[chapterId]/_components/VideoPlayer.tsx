@@ -1,14 +1,15 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
+
 import { MuxData } from "@prisma/client";
 import MuxPlayer from "@mux/mux-player-react";
+import { cn } from "@/lib/utils";
 
 import toast from "react-hot-toast";
 import { Loader2, Lock } from "lucide-react";
-
-import { cn } from "@/lib/utils";
+import { Button } from "@/components/ui/button";
 
 type PlayerProps = {
    chapterId: string;
@@ -30,6 +31,7 @@ export default function VideoPlayer({
    title,
 }: PlayerProps) {
    const [isReady, setIsReady] = useState(false);
+
    return (
       <div className="relative aspect-video">
          {!isReady && !isLocked && (

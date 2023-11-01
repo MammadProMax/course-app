@@ -4,12 +4,16 @@ import { Chapter } from "@prisma/client";
 
 import { db } from "@/lib/db";
 import Mux from "@mux/mux-node";
-import { utapi } from "uploadthing/server";
+import { UTApi } from "uploadthing/server";
 
 const { Video } = new Mux(
    process.env.MUX_TOKEN_ID!,
    process.env.MUX_TOKEN_SECRET!
 );
+
+const utapi = new UTApi({
+   fetch: globalThis.fetch,
+});
 
 type ParamsProps = {
    params: {
@@ -23,6 +27,8 @@ export async function PATCH(
    { params: { courseId, chapterId } }: ParamsProps
 ) {
    try {
+      console.log("patch route started");
+
       const { userId } = auth();
       if (!userId) return new NextResponse("unauthorized", { status: 401 });
 
@@ -39,6 +45,10 @@ export async function PATCH(
          return new NextResponse("unauthorized", { status: 401 });
 
       if (updatedData.videoUrl) {
+         console.log(
+            `video url is sent successfully : ${updatedData.videoUrl}`
+         );
+
          // delete previous video in uploadthings
          const chapterBeforeUpdate = await db.chapter.findUnique({
             where: {
@@ -48,9 +58,13 @@ export async function PATCH(
          });
 
          if (chapterBeforeUpdate?.videoUrl) {
-            // delete ex MuxData and file
-            const fileKey = chapterBeforeUpdate.videoUrl.split("/").pop();
-            fileKey && (await utapi.deleteFiles(fileKey));
+            try {
+               const fileKey = chapterBeforeUpdate.videoUrl.split("/").pop();
+               fileKey && (await utapi.deleteFiles(fileKey));
+            } catch (error) {
+               console.log("[utapi]");
+               console.log(error);
+            }
 
             const existingMuxData = await db.muxData.findFirst({
                where: {
@@ -59,7 +73,13 @@ export async function PATCH(
             });
 
             if (existingMuxData) {
-               await Video.Assets.del(existingMuxData.assetId);
+               try {
+                  await Video.Assets.del(existingMuxData.assetId);
+               } catch (error) {
+                  console.log("[mux:Del]");
+                  console.log(error);
+               }
+
                await db.muxData.delete({
                   where: {
                      id: existingMuxData.id,
@@ -68,19 +88,26 @@ export async function PATCH(
             }
          }
 
-         const asset = await Video.Assets.create({
-            input: updatedData.videoUrl,
-            playback_policy: "public",
-            test: false,
-         });
+         console.log("create new mux data");
 
-         await db.muxData.create({
-            data: {
-               assetId: asset.id,
-               chapterId,
-               playbackId: asset.playback_ids?.[0].id,
-            },
-         });
+         try {
+            const asset = await Video.Assets.create({
+               input: updatedData.videoUrl,
+               playback_policy: "public",
+               test: false,
+            });
+
+            await db.muxData.create({
+               data: {
+                  assetId: asset.id,
+                  chapterId,
+                  playbackId: asset.playback_ids?.[0].id,
+               },
+            });
+         } catch (error) {
+            console.log("[mux:Create asset]");
+            console.log(error);
+         }
       }
 
       const chapter = await db.chapter.update({

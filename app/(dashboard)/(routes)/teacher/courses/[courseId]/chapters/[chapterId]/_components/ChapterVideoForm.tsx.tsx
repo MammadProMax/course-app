@@ -108,6 +108,9 @@ const ChapterVideoForm = ({ courseId, initialData, chapterId }: Props) => {
                   onChange={(url) => {
                      if (url) {
                         handleSubmit({ videoUrl: url });
+                        console.log(
+                           "video url is created [chapterVideoForm] sent to database"
+                        );
                      }
                   }}
                />
