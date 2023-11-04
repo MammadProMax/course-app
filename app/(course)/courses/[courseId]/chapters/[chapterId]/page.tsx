@@ -1,8 +1,15 @@
-import Banner from "@/components/global/Banner";
-import getChapter from "@/fetchers/getPublishableChapterPlayer";
 import { redirect } from "next/navigation";
 import React from "react";
+
+import getChapter from "@/fetchers/getPublishableChapterPlayer";
+
+import { FileIcon } from "lucide-react";
+import { Separator } from "@/components/ui/separator";
+
+import Banner from "@/components/global/Banner";
+import QuillPreview from "@/components/global/QuillPreview";
 import VideoPlayer from "./_components/VideoPlayer";
+import CourseEnrollButton from "./_components/CourseEnrollButton";
 
 type PageProps = {
    params: {
@@ -58,6 +65,39 @@ export default async function ChapterPlayerPage({
                   completeOnEnd={completeOnEnd}
                />
             </div>
+            <div className="p-4 flex flex-col md:flex-row items-center justify-between">
+               <h2 className="text-2xl font-semibold mb-2">{chapter.title}</h2>
+               {!isLocked ? (
+                  <div>{/* TODO:ADD course progress button */}</div>
+               ) : (
+                  <CourseEnrollButton
+                     courseId={courseId}
+                     price={course.price!}
+                  />
+               )}
+            </div>
+            <Separator />
+            <div>
+               <QuillPreview value={chapter.description!} />
+            </div>
+            {!isLocked && !!attachments.length && (
+               <>
+                  <Separator />
+                  <div>
+                     {attachments.map((att) => (
+                        <a
+                           key={att.id}
+                           href={att.url}
+                           target="_blank"
+                           className="flex items-center p-3 w-full bg-sky-200 border text-sky-700 rounded-md hover:underline"
+                        >
+                           <FileIcon />
+                           <p className="line-clamp-1 ">{att.name}</p>
+                        </a>
+                     ))}
+                  </div>
+               </>
+            )}
          </div>
       </div>
    );

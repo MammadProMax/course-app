@@ -90,24 +90,19 @@ export async function PATCH(
 
          console.log("create new mux data");
 
-         try {
-            const asset = await Video.Assets.create({
-               input: updatedData.videoUrl,
-               playback_policy: "public",
-               test: false,
-            });
+         const asset = await Video.Assets.create({
+            input: updatedData.videoUrl,
+            playback_policy: "public",
+            test: false,
+         });
 
-            await db.muxData.create({
-               data: {
-                  assetId: asset.id,
-                  chapterId,
-                  playbackId: asset.playback_ids?.[0].id,
-               },
-            });
-         } catch (error) {
-            console.log("[mux:Create asset]");
-            console.log(error);
-         }
+         await db.muxData.create({
+            data: {
+               assetId: asset.id,
+               chapterId,
+               playbackId: asset.playback_ids?.[0].id,
+            },
+         });
       }
 
       const chapter = await db.chapter.update({

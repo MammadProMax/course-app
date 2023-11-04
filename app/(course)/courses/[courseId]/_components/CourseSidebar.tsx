@@ -26,7 +26,7 @@ export default async function CourseSidebar({ course, progress }: Props) {
                   key={chapter.id}
                   chapterId={chapter.id}
                   courseId={course.id}
-                  isLocked={!chapter.isFree || !purchase}
+                  isLocked={!chapter.isFree && !purchase}
                   isCompleted={!!chapter.userProgress?.[0]?.isComplete}
                   title={chapter.title}
                />
