@@ -9,7 +9,7 @@ import getCourses from "@/fetchers/getPublishedProgressedCourses";
 
 import Categories from "./_components/Categories";
 import NavSearch from "@/components/global/NavSearch";
-import CourseList from "./_components/CourseList";
+import CourseList from "@/components/global/CourseList";
 
 type Props = {
    searchParams: {
