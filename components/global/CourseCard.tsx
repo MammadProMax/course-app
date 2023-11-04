@@ -7,6 +7,7 @@ import { formatPrice } from "@/lib/formatPrice";
 
 import { IconBadge } from "@/components/global/IconBadge";
 import { BookOpen } from "lucide-react";
+import CourseProgress from "@/components/global/CourseProgress";
 
 type Props = {
    course: CourseWithProgressWithCategory;
@@ -48,7 +49,12 @@ export default function CourseCard({ course }: Props) {
                   </div>
                </div>
                {course.progress !== null ? (
-                  <div>TODO:progeressCompnent</div>
+                  <CourseProgress
+                     value={course.progress}
+                     size="sm"
+                     variant={course.progress === 100 ? "success" : "default"}
+                     className="h-1.5"
+                  />
                ) : (
                   <p className="text-md md:text-sm font-medium text-slate-700">
                      {course.price ? formatPrice(course.price) : "FREE"}

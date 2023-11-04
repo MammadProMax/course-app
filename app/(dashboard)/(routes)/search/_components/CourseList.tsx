@@ -2,7 +2,7 @@ import React from "react";
 
 import type { CourseWithProgressWithCategory } from "@/fetchers/getPublishedProgressedCourses";
 
-import CourseCard from "./CourseCard";
+import CourseCard from "@/components/global/CourseCard";
 
 type Props = {
    items: CourseWithProgressWithCategory[];

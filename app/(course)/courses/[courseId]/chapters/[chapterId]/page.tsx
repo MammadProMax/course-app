@@ -10,6 +10,7 @@ import Banner from "@/components/global/Banner";
 import QuillPreview from "@/components/global/QuillPreview";
 import VideoPlayer from "./_components/VideoPlayer";
 import CourseEnrollButton from "./_components/CourseEnrollButton";
+import ChapterProgressButton from "./_components/ChapterProgressButton";
 
 type PageProps = {
    params: {
@@ -67,8 +68,13 @@ export default async function ChapterPlayerPage({
             </div>
             <div className="p-4 flex flex-col md:flex-row items-center justify-between">
                <h2 className="text-2xl font-semibold mb-2">{chapter.title}</h2>
-               {!isLocked ? (
-                  <div>{/* TODO:ADD course progress button */}</div>
+               {purchase ? (
+                  <ChapterProgressButton
+                     chapterId={chapterId}
+                     courseId={courseId}
+                     isCompeleted={!!userProgress?.isComplete}
+                     nextChapterId={nextChapter?.id}
+                  />
                ) : (
                   <CourseEnrollButton
                      courseId={courseId}
@@ -83,13 +89,13 @@ export default async function ChapterPlayerPage({
             {!isLocked && !!attachments.length && (
                <>
                   <Separator />
-                  <div>
+                  <div className="mt-6">
                      {attachments.map((att) => (
                         <a
                            key={att.id}
                            href={att.url}
                            target="_blank"
-                           className="flex items-center p-3 w-full bg-sky-200 border text-sky-700 rounded-md hover:underline"
+                           className="flex gap-x-2 items-center p-3 w-full bg-sky-200 border text-sky-700 rounded-md hover:underline"
                         >
                            <FileIcon />
                            <p className="line-clamp-1 ">{att.name}</p>

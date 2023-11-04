@@ -1,4 +1,4 @@
-import { Category, Course } from "@prisma/client";
+import { Category, Course, Purchase } from "@prisma/client";
 import { db } from "@/lib/db";
 import getProgress from "./getUserProgressFromDb";
 
@@ -6,6 +6,7 @@ export type CourseWithProgressWithCategory = Course & {
    category: Category | null;
    chapters: { id: string }[];
    progress: number | null;
+   purchases: Purchase[];
 };
 
 type GetCoursesProps = {

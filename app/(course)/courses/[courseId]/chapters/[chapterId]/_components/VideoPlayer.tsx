@@ -3,13 +3,13 @@
 import React, { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 
+import axios from "axios";
 import { MuxData } from "@prisma/client";
 import MuxPlayer from "@mux/mux-player-react";
 import { cn } from "@/lib/utils";
 
 import toast from "react-hot-toast";
 import { Loader2, Lock } from "lucide-react";
-import { Button } from "@/components/ui/button";
 
 type PlayerProps = {
    chapterId: string;
@@ -31,6 +31,29 @@ export default function VideoPlayer({
    title,
 }: PlayerProps) {
    const [isReady, setIsReady] = useState(false);
+   const router = useRouter();
+   const handleProgress = async () => {
+      try {
+         if (completeOnEnd) {
+            const promise = axios.put(
+               `/api/courses/${courseId}/chapters/${chapterId}/progress`,
+               {
+                  isComplete: true,
+               }
+            );
+            await toast.promise(promise, {
+               loading: "Loading progress ...",
+               error: "somthing went wrong",
+               success: "Progress updated",
+            });
+         }
+         if (nextChapterId) {
+            router.push(`/courses/${courseId}/chapters/${nextChapterId}`);
+         } else router.refresh();
+      } catch (error) {
+         console.log(error);
+      }
+   };
 
    return (
       <div className="relative aspect-video">
@@ -51,8 +74,7 @@ export default function VideoPlayer({
                playbackId={muxData.playbackId!}
                className={cn("rounded-sm", !isReady && "hidden")}
                onCanPlay={() => setIsReady(true)}
-               onEnded={() => {}}
-               autoPlay
+               onEnded={handleProgress}
             />
          )}
       </div>
