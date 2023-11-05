@@ -1,9 +1,8 @@
 import "./globals.css";
-import { Inter } from "next/font/google";
-import { ClerkProvider } from "@clerk/nextjs";
-import ToasterProvider from "@/components/provider/ToasterProvider";
 
-const inter = Inter({ subsets: ["latin"] });
+import ToasterProvider from "@/components/provider/ToasterProvider";
+import ReactQueryProvider from "@/components/provider/ReactQueryProvider";
+import { ClerkProvider } from "@clerk/nextjs";
 
 export const metadata = {
    title: "Create Next App",
@@ -17,12 +16,14 @@ export default function RootLayout({
 }) {
    return (
       <ClerkProvider>
-         <html lang="en">
-            <body>
-               <ToasterProvider />
-               {children}
-            </body>
-         </html>
+         <ReactQueryProvider>
+            <html lang="en">
+               <body>
+                  <ToasterProvider />
+                  {children}
+               </body>
+            </html>
+         </ReactQueryProvider>
       </ClerkProvider>
    );
 }

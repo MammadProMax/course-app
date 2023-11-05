@@ -2,6 +2,7 @@ import { NextResponse } from "next/server";
 import { auth } from "@clerk/nextjs";
 
 import { db } from "@/lib/db";
+import { getRole } from "@/lib/getRole";
 
 export async function GET() {
    try {
@@ -21,7 +22,9 @@ export async function GET() {
 export async function POST(req: Request) {
    try {
       const { userId } = auth();
-
+      const isAuthorized = await getRole(userId!);
+      if (!userId || !isAuthorized)
+         new NextResponse("Unauthorized", { status: 401 });
       //check requirements
       const {
          title,

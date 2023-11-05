@@ -1,11 +1,13 @@
+import { getRole } from "@/lib/getRole";
 import { auth } from "@clerk/nextjs";
 import { createUploadthing, type FileRouter } from "uploadthing/next";
 
 const f = createUploadthing();
 
-const handelAuth = () => {
+const handelAuth = async () => {
    const { userId } = auth();
-   if (!userId) throw new Error("Unauthorized");
+   const isAuthorized = await getRole(userId!);
+   if (!userId || !isAuthorized) throw new Error("Unauthorized");
    return { userId };
 };
 

@@ -5,6 +5,7 @@ import { Course } from "@prisma/client";
 import { utapi } from "uploadthing/server";
 
 import Mux from "@mux/mux-node";
+import { getRole } from "@/lib/getRole";
 const { Video } = new Mux(
    process.env.MUX_TOKEN_ID!,
    process.env.MUX_TOKEN_SECRET!
@@ -63,7 +64,9 @@ export async function DELETE(
 ) {
    try {
       const { userId } = auth();
-      if (!userId) return new NextResponse("unauthorized", { status: 401 });
+      const isAuthorized = await getRole(userId!);
+      if (!userId || !isAuthorized)
+         return new NextResponse("unauthorized", { status: 401 });
       const course = await db.course.findUnique({
          where: {
             id: courseId,

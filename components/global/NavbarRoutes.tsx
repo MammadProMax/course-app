@@ -1,17 +1,28 @@
 "use client";
 
-import React from "react";
-
-import { usePathname } from "next/navigation";
+import React, { useEffect, useRef } from "react";
 import Link from "next/link";
+import { usePathname, useRouter } from "next/navigation";
 
+import { useAuth } from "@clerk/nextjs";
+import { getRole } from "@/lib/getRole";
+import { useQuery } from "@tanstack/react-query";
+
+import { UserButton } from "@clerk/nextjs";
 import { LogOut } from "lucide-react";
 import { Button } from "../ui/button";
-import { UserButton } from "@clerk/nextjs";
 import NavSearch from "./NavSearch";
 
 const NavbarRoutes = () => {
    const pathname = usePathname();
+   const router = useRouter();
+   const { userId } = useAuth();
+   if (!userId) router.push("/");
+
+   const { data: userRole } = useQuery({
+      queryKey: ["userRole"],
+      queryFn: () => getRole(userId!),
+   });
 
    const isTeacherPage = pathname.startsWith("/teacher");
    const isCoursePage = pathname.includes("/courses");
@@ -32,11 +43,11 @@ const NavbarRoutes = () => {
                      Exit
                   </Link>
                </Button>
-            ) : (
+            ) : !!userRole ? (
                <Button asChild variant={"ghost"} size={"sm"}>
                   <Link href="/teacher/courses">Teacher Mode</Link>
                </Button>
-            )}
+            ) : null}
             <UserButton afterSignOutUrl="/" />
          </div>
       </>

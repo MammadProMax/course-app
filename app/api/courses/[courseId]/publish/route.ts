@@ -1,6 +1,7 @@
 import { NextResponse } from "next/server";
 import { db } from "@/lib/db";
 import { auth } from "@clerk/nextjs";
+import { getRole } from "@/lib/getRole";
 
 type Params = {
    params: {
@@ -20,7 +21,9 @@ export async function POST(request: Request, { params: { courseId } }: Params) {
 
    try {
       const { userId } = auth();
-      if (!userId) return new NextResponse("unauthorized", { status: 401 });
+      const isAuthorized = await getRole(userId!);
+      if (!userId || !isAuthorized)
+         return new NextResponse("unauthorized", { status: 401 });
 
       const course = await db.course.findUnique({
          where: {

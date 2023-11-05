@@ -96,3 +96,14 @@ model Purchase {
   @@unique([userId, courseId])
   @@index([courseId])
 }
+
+model Partricipant {
+  id     String @id @default(auto()) @map("_id") @db.ObjectId
+  userId String @unique
+  role   Role
+}
+
+enum Role {
+  ADMIN
+  TEACHER
+}
