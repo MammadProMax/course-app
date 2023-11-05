@@ -30,6 +30,9 @@ const NavbarRoutes = () => {
 
    return (
       <>
+         <Button asChild variant="ghost" size="sm">
+            <Link href="/about">About us</Link>
+         </Button>
          {isSearchPage && (
             <div className="hidden md:block">
                <NavSearch />
