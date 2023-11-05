@@ -9,7 +9,7 @@ import MuxPlayer from "@mux/mux-player-react";
 import { cn } from "@/lib/utils";
 
 import toast from "react-hot-toast";
-import { Loader2, Lock } from "lucide-react";
+import { Loader2, Lock, Users } from "lucide-react";
 
 type PlayerProps = {
    chapterId: string;
@@ -31,7 +31,21 @@ export default function VideoPlayer({
    title,
 }: PlayerProps) {
    const [isReady, setIsReady] = useState(false);
+   const [isProblem, setIsProblem] = useState(false);
    const router = useRouter();
+
+   useEffect(() => {
+      const timer = setTimeout(() => {
+         if (!isReady) {
+            setIsProblem(true);
+         }
+      }, 8000);
+      if (isReady) {
+         setIsProblem(false);
+      }
+      return () => clearTimeout(timer);
+   }, [isReady]);
+
    const handleProgress = async () => {
       try {
          if (completeOnEnd) {
@@ -60,6 +74,12 @@ export default function VideoPlayer({
          {!isReady && !isLocked && (
             <div className="absolute inset-0 flex items-center justify-center bg-slate-800">
                <Loader2 className="h-8 w-8 animate-spin text-secondary" />
+            </div>
+         )}
+         {!isReady && !isLocked && isProblem && (
+            <div className="absolute inset-0 flex items-center justify-center bg-slate-800 text-white font-semibold ">
+               Somthing went wrong with video player please contact admin for
+               issue
             </div>
          )}
          {isLocked && (
