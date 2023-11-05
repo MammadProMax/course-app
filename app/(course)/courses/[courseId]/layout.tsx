@@ -21,6 +21,7 @@ export default async function CourseLayout({ children, params }: Props) {
    if (!userId) return redirect("/");
 
    const course = await getCourse(params.courseId);
+
    if (!course) return notFound();
 
    const progressCount = await getProgress(userId, params.courseId);

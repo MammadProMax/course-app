@@ -33,7 +33,6 @@ export async function CourseWithPublishedChapsProgressed(id: string) {
    const course = db.course.findUnique({
       where: {
          id,
-         userId,
       },
       include: {
          chapters: {
