@@ -29,7 +29,7 @@ export default async function SearchPage({ searchParams }: Props) {
          <div className="md:hidden mb-4 px-6 pt-4">
             <NavSearch />
          </div>
-         <div className="px-6">
+         <div className="px-6 pb-3">
             <Categories items={categories} />
             <CourseList items={courses} />
          </div>

@@ -64,7 +64,7 @@ export default function Expericence() {
             <div className="h-0.5 w-2/3 bg-red-700 rounded-lg"></div>
          </div>
 
-         <div className="pt-6 flex gap-4 flex-row flex-wrap px-8">
+         <div className="py-6 flex gap-4 flex-row flex-wrap px-8">
             {skillsList.map((item, index) => (
                <IconBadge
                   key={index}
