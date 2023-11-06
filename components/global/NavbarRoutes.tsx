@@ -30,7 +30,7 @@ const NavbarRoutes = () => {
 
    return (
       <>
-         <Button asChild variant="ghost" size="sm">
+         <Button asChild variant="ghost" size="sm" className="mr-3">
             <Link href="/about">About us</Link>
          </Button>
          {isSearchPage && (

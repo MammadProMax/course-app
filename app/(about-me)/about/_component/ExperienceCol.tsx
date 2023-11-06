@@ -31,7 +31,7 @@ export default function ExperienceCol({
          </div>
          <div className="flex flex-col w-full">
             {list.map((item, index) => (
-               <Card key={index} className="bg-slate-100">
+               <Card key={index} className="bg-slate-100 px-2">
                   <div className="text-sm font-normal text-slate-500 px-6 pt-2">
                      {item.Date}
                   </div>

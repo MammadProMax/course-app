@@ -56,7 +56,7 @@ export default function CourseEnrollButton({ courseId, price }: EnrollProps) {
             <AlertDialogHeader>
                <AlertDialogTitle>Purchase simulation</AlertDialogTitle>
             </AlertDialogHeader>
-            <AlertDialogFooter>
+            <AlertDialogFooter className="gap-y-2">
                <AlertDialogAction onClick={handleEnroll}>
                   Purchase
                </AlertDialogAction>
